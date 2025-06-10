@@ -74,6 +74,76 @@ return promedio;
 
 }
 
+float promedio_bajas_15_20(int edad[], int bajas[], int n) {
+    int suma = 0, contador = 0;
+    for (int i = 0; i < n; i++) {
+        if (edad[i] >= 15 && edad[i] <= 20) {
+            suma += bajas[i];
+            contador++;
+        }
+    }
+    return (contador > 0) ? (float)suma / contador : 0;
+}
+
+string alias_mas_armas(string alias[], int armas[], int n) {
+    return alias[busqueda_posicion_mayor(armas, n)];
+}
+
+float promedio_bajas_menores_20(int edad[], int bajas[], int n) {
+    int suma = 0, contador = 0;
+    for (int i = 0; i < n; i++) {
+        if (edad[i] < 20) {
+            suma += bajas[i];
+            contador++;
+        }
+    }
+    return (contador > 0) ? (float)suma / contador : 0;
+}
+
+float porcentaje_bajas_18_22(int edad[], int bajas[], int n, int total_bajas) {
+    int suma = 0;
+    for (int i = 0; i < n; i++) {
+        if (edad[i] >= 18 && edad[i] <= 22) {
+            suma += bajas[i];
+        }
+    }
+    return (total_bajas > 0) ? (float)suma / total_bajas * 100 : 0;
+}
+
+int minutos_mas_30_asesinatos(int asesinatos[], int minutos[], int n) {
+    int suma = 0;
+    for (int i = 0; i < n; i++) {
+        if (asesinatos[i] > 30) {
+            suma += minutos[i];
+        }
+    }
+    return suma;
+}
+
+int jugadores_mas_bajas_que_asesinatos(int asesinatos[], int bajas[], int n) {
+    int contador = 0;
+    for (int i = 0; i < n; i++) {
+        if (bajas[i] > asesinatos[i]) {
+            contador++;
+        }
+    }
+    return contador;
+}
+
+float porcentaje_mas_asesinatos_que_bajas(int asesinatos[], int bajas[], int n) {
+    int contador = 0;
+    for (int i = 0; i < n; i++) {
+        if (asesinatos[i] > bajas[i]) {
+            contador++;
+        }
+    }
+    return (n > 0) ? (float)contador / n * 100 : 0;
+}
+
+void alias_menos_armas(string alias[], int armas[], int n) {
+    return alias[busqueda_posicion_menor(armas, n)];
+   cout << "15) El jugador que menos armas utilizó fue " <<alias[busqueda_posicion_menor(armas, n)]<<endl;
+}
 
 
 
@@ -155,80 +225,15 @@ cout<<"6) El promedio de muertes es "<<promediomuertes(bajas,n)<<endl;
 //7-edad del jugador que menos asesinatos tuvo durante el juego.
 cout<<"7) La edad del jugador con menos asesinatos tiene "<<edad[busqueda_posicion_menor(asesinatos,n)]<<endl;
 
-imprimirEstadisticasAvanzadas(bajas, edad, armas, asesinatos, minutos, alias, n, sumabajas);
+cout << "8) Promedio de bajas de jugadores entre 15 y 20 años: " << promedio_bajas_15_20(edad, bajas, n) << endl;
+cout << "9) El jugador que más armas utilizó fue " << alias_mas_armas(alias, armas, n) << endl;
+cout << "10) Número promedio de bajas en jugadores menores de 20 años: " << promedio_bajas_menores_20(edad, bajas, n) << endl;
+cout << "11) Porcentaje de bajas de jugadores entre 18 y 22 años: " << porcentaje_bajas_18_22(edad, bajas, n, sumabajas) << "%" << endl;
+cout << "12) Acumulado de minutos de jugadores con más de 30 asesinatos: " << minutos_mas_30_asesinatos(asesinatos, minutos, n) << endl;
+cout << "13) Cantidad de jugadores con más bajas que asesinatos: " << jugadores_mas_bajas_que_asesinatos(asesinatos, bajas, n) << endl;
+cout << "14) Porcentaje de jugadores con más asesinatos que bajas: " << porcentaje_mas_asesinatos_que_bajas(asesinatos, bajas, n) << "%" << endl;
+alias_menos_armas(alias, armas, n);
 
-return 0;
-}
-
-void imprimirEstadisticasAvanzadas(
-    int bajas[], int edad[], int armas[], int asesinatos[], int minutos[], string alias[],
-    int n, int sumabajas
-) {
-    // 8 - Promedio de bajas de jugadores entre 15 y 20 años
-    int sumaBajas15_20 = 0, count15_20 = 0;
-    for (int i = 0; i < n; i++) {
-        if (edad[i] >= 15 && edad[i] <= 20) {
-            sumaBajas15_20 += bajas[i];
-            count15_20++;
-        }
-    }
-    float promedioBajas15_20 = (count15_20 > 0) ? (float)sumaBajas15_20 / count15_20 : 0;
-    cout << "8) Promedio de bajas de jugadores entre 15 y 20 años: " << promedioBajas15_20 << endl;
-
-    // 9 - Alias del jugador que más armas utilizó
-    cout << "9) El jugador que más armas utilizó fue " << alias[busqueda_posicion_mayor(armas, n)] << endl;
-
-    // 10 - Número de bajas promedio en jugadores menores de 20 años
-    int sumaBajasMenores20 = 0, countMenores20 = 0;
-    for (int i = 0; i < n; i++) {
-        if (edad[i] < 20) {
-            sumaBajasMenores20 += bajas[i];
-            countMenores20++;
-        }
-    }
-    float promedioBajasMenores20 = (countMenores20 > 0) ? (float)sumaBajasMenores20 / countMenores20 : 0;
-    cout << "10) Número promedio de bajas en jugadores menores de 20 años: " << promedioBajasMenores20 << endl;
-
-    // 11 - % de bajas de jugadores entre 18 y 22 años
-    int sumaBajas18_22 = 0;
-    for (int i = 0; i < n; i++) {
-        if (edad[i] >= 18 && edad[i] <= 22) {
-            sumaBajas18_22 += bajas[i];
-        }
-    }
-    float porcentajeBajas18_22 = (sumabajas > 0) ? ((float)sumaBajas18_22 / sumabajas) * 100 : 0;
-    cout << "11) Porcentaje de bajas de jugadores entre 18 y 22 años: " << porcentajeBajas18_22 << "%" << endl;
-
-    // 12 - Acumulado de minutos de jugadores con más de 30 asesinatos
-    int sumaMinutosMas30 = 0;
-    for (int i = 0; i < n; i++) {
-        if (asesinatos[i] > 30) {
-            sumaMinutosMas30 += minutos[i];
-        }
-    }
-    cout << "12) Acumulo de minutos de jugadores con más de 30 asesinatos: " << sumaMinutosMas30 << endl;
-
-    // 13 - Cantidad de jugadores con más bajas que asesinatos
-    int countMasBajasQueAsesinatos = 0;
-    for (int i = 0; i < n; i++) {
-        if (bajas[i] > asesinatos[i]) {
-            countMasBajasQueAsesinatos++;
-        }
-    }
-    cout << "13) Cantidad de jugadores con más bajas que asesinatos: " << countMasBajasQueAsesinatos << endl;
-
-    // 14 - % de jugadores con más asesinatos que bajas
-    int countMasAsesinatosQueBajas = 0;
-    for (int i = 0; i < n; i++) {
-        if (asesinatos[i] > bajas[i]) {
-            countMasAsesinatosQueBajas++;
-        }
-    }
-    float porcentajeMasAsesinatosQueBajas = (n > 0) ? ((float)countMasAsesinatosQueBajas / n) * 100 : 0;
-    cout << "14) Porcentaje de jugadores con más asesinatos que bajas: " << porcentajeMasAsesinatosQueBajas << "%" << endl;
-
-    // 15 - Alias del jugador que menos armas utilizó
-    cout << "15) El jugador que menos armas utilizó fue " << alias[busqueda_posicion_menor(armas, n)] << endl;
 }
 
 
