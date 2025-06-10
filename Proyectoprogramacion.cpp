@@ -18,9 +18,20 @@ for ( i = 0; i < n; i++)
 return posicion_del_mayor; 
 }
 
+float porcentaje_muertes_100_200(int minutos[], int bajas[], int total_bajas, int n) {
+    int total_bajas_100_200 = 0;
+    for (int i = 0; i < n; i++) {
+        if (minutos[i] >= 100 && minutos[i] <= 200) {
+            total_bajas_100_200 += bajas[i];
+        }
+    }
+    return (total_bajas > 0) ? (float)total_bajas_100_200 / total_bajas * 100 : 0;
+}
+
+
 int busqueda_posicion_menor(int x[], int n)
 {
-   int i, menor=100;
+   int i, menor=100,posicion_del_menor;
 
 for ( i = 0; i < n; i++)
 {
@@ -37,7 +48,7 @@ return posicion_del_menor;
 
 void imprimir_alias(string nombres[], int x[], int n)
 {
-    int i,menor=999,posicion_menor;
+    int i,menor=999;
     string nombremenor;
     
     
@@ -141,7 +152,7 @@ float porcentaje_mas_asesinatos_que_bajas(int asesinatos[], int bajas[], int n) 
 }
 
 void alias_menos_armas(string alias[], int armas[], int n) {
-    return alias[busqueda_posicion_menor(armas, n)];
+   
    cout << "15) El jugador que menos armas utilizó fue " <<alias[busqueda_posicion_menor(armas, n)]<<endl;
 }
 
@@ -151,7 +162,7 @@ int main(){
 
 
 
-int n,i,sumabajas=0,sumaminutos=0,totalbajas100_200=0;
+int n,i, sumabajas=0;
 
 cout<<"Bienvenido a la recopilacion del juego Quake 3 Arena"<<endl;
 
@@ -184,7 +195,7 @@ for ( i = 0; i < n; i++)
 
     cout<<"ingrese cuantos minutos estuvo el jugador "<<alias[i]<<endl;
     cin>>minutos[i];
-    sumaminutos=sumaminutos+minutos[i];
+   
 
 }
 
@@ -192,23 +203,16 @@ for ( i = 0; i < n; i++)
 
 cout<<"Estadisticas:"<<endl;
 
+//1- Alias del jugador que asesino mas enemigos.
 cout<<"1) El jugador que asesino mas enemigos fue "<< alias[busqueda_posicion_mayor(asesinatos,n)] << endl;
+
+//2 Minutos de juego que tuvo el jugador que mas bajas le propinaron.
 cout<<"2) El jugador que tuvo mas bajas, jugo " << minutos[busqueda_posicion_mayor(bajas,n)]<<" minutos"<<endl;
 
 
 //3- % de muertes de los jugadores que tuvieron entre 100 y 200 minutos jugando.
 
-totalbajas100_200=0;
-
-for(i=0; i<n; i++)
-{
-    if(minutos[i]>=100 && minutos[i]<=200)
-    {
-        totalbajas100_200=totalbajas100_200+bajas[i];
-    }
-
-}
-cout<<"3) El procentaje de muertes de los jugadores que estuvieron jugando entre 100 y 200 minutos fue del "<<((float)totalbajas100_200/(float)sumabajas)*100<<"%"<<endl;
+cout << "3) Porcentaje de muertes de jugadores entre 100 y 200 minutos: "<< porcentaje_muertes_100_200(minutos, bajas, sumabajas, n) << "%" << endl;
 
 //4-cantidad de asesinatos que tuvo el jugador de mayor edad.
 
@@ -225,17 +229,28 @@ cout<<"6) El promedio de muertes es "<<promediomuertes(bajas,n)<<endl;
 //7-edad del jugador que menos asesinatos tuvo durante el juego.
 cout<<"7) La edad del jugador con menos asesinatos tiene "<<edad[busqueda_posicion_menor(asesinatos,n)]<<endl;
 
-cout << "8) Promedio de bajas de jugadores entre 15 y 20 años: " << promedio_bajas_15_20(edad, bajas, n) << endl;
-cout << "9) El jugador que más armas utilizó fue " << alias_mas_armas(alias, armas, n) << endl;
-cout << "10) Número promedio de bajas en jugadores menores de 20 años: " << promedio_bajas_menores_20(edad, bajas, n) << endl;
-cout << "11) Porcentaje de bajas de jugadores entre 18 y 22 años: " << porcentaje_bajas_18_22(edad, bajas, n, sumabajas) << "%" << endl;
-cout << "12) Acumulado de minutos de jugadores con más de 30 asesinatos: " << minutos_mas_30_asesinatos(asesinatos, minutos, n) << endl;
-cout << "13) Cantidad de jugadores con más bajas que asesinatos: " << jugadores_mas_bajas_que_asesinatos(asesinatos, bajas, n) << endl;
-cout << "14) Porcentaje de jugadores con más asesinatos que bajas: " << porcentaje_mas_asesinatos_que_bajas(asesinatos, bajas, n) << "%" << endl;
+//8-promedio de bajas que tuvieron los jugadores entre 15 y 20 años
+cout << "8) Promedio de bajas de jugadores entre 15 y 20 anos: " << promedio_bajas_15_20(edad, bajas, n) << endl;
+
+//9-alias del jugador q mas armas utilizo.
+cout << "9) El jugador que mas armas utilizo fue " << alias_mas_armas(alias, armas, n) << endl;
+
+//10-numero de bajas promedio en jugadores menores de 20 años
+cout << "10) Numero promedio de bajas en jugadores menores de 20 anos: " << promedio_bajas_menores_20(edad, bajas, n) << endl;
+
+//11-% de bajas de jugadores entre 18 y 22 años
+cout << "11) Porcentaje de bajas de jugadores entre 18 y 22 anos: " << porcentaje_bajas_18_22(edad, bajas, n, sumabajas) << "%" << endl;
+
+//12-acumulo de minutos de todos los jugadores con mas de 30 asesinatos
+cout << "12) Acumulado de minutos de jugadores con mas de 30 asesinatos: " << minutos_mas_30_asesinatos(asesinatos, minutos, n) << endl;
+
+//13-cantidad de jugadores que tuvieron mas bajas que asesinatos
+cout << "13) Cantidad de jugadores con mas bajas que asesinatos: " << jugadores_mas_bajas_que_asesinatos(asesinatos, bajas, n) << endl;
+
+//13-cantidad de jugadores que tuvieron mas bajas que asesinatos
+cout << "14) Porcentaje de jugadores con mas asesinatos que bajas: " << porcentaje_mas_asesinatos_que_bajas(asesinatos, bajas, n) << "%" << endl;
+
+//13-cantidad de jugadores que tuvieron mas bajas que asesinatos
 alias_menos_armas(alias, armas, n);
 
 }
-
-
-
-
