@@ -154,7 +154,7 @@ cout<<"6) El promedio de muertes es "<<promediomuertes(bajas,n)<<endl;
 
 //7-edad del jugador que menos asesinatos tuvo durante el juego.
 cout<<"7) La edad del jugador con menos asesinatos tiene "<<edad[busqueda_posicion_menor(asesinatos,n)]<<endl;
-}
+
  // 8 - promedio de bajas que tuvieron los jugadores entre 15 y 20 años
     int sumaBajas15_20 = 0, count15_20 = 0;
     for (int i = 0; i < n; i++) {
